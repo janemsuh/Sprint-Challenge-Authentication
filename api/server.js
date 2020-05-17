@@ -12,6 +12,12 @@ server.use(helmet());
 server.use(cors());
 server.use(express.json());
 
+server.get('/', (req, res) => {
+    res.json({
+        message: 'The Sprint Challenge Authentication API is up'
+    })
+});
+
 server.use('/api/auth', authRouter);
 server.use('/api/jokes', authenticate, jokesRouter);
 

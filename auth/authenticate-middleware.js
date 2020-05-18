@@ -3,6 +3,30 @@
   before granting access to the next middleware/route handler
 */
 
-module.exports = (req, res, next) => {
-  res.status(401).json({ you: 'shall not pass!' });
+const jwt = require('jsonwebtoken');
+
+function authenticate() {
+    return async (req, res, next) => {
+        try {
+            const token = req.cookies.token;
+            if (!token) {
+                return res.status(401).json({
+                    message: 'You shall not pass! Token does not exist.'
+                });
+            }
+            jwt.verify(token, process.env.JWT_SECRET, (err, decodedPayload) => {
+                if (err) {
+                    return res.status(401).json({
+                        message: 'You shall not pass! Invalid credentials.'
+                    });
+                }
+                req.token = decodedPayload;
+                next();
+            })
+        } catch (err) {
+            next(err);
+        }
+    }
 };
+
+module.exports = authenticate;

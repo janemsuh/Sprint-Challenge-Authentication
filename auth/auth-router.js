@@ -25,8 +25,11 @@ router.post('/login', async (req, res, next) => {
     const validPassword = await bcrypt.compare(password, user.password);
     if (user && validPassword) {
         const tokenPayload = {
-            userId: user.id
+            userId: user.id,
+            userName: user.username
         };
+        console.log('tokenPayload', tokenPayload);
+        console.log('.env file', process.env.JWT_SECRET);
         res.cookie('token', jwt.sign(tokenPayload, process.env.JWT_SECRET));
         res.status(200).json({
             message: `Logged in: ${user.username}`

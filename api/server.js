@@ -1,4 +1,5 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 
@@ -11,6 +12,7 @@ const server = express();
 server.use(helmet());
 server.use(cors());
 server.use(express.json());
+server.use(cookieParser());
 
 server.get('/', (req, res) => {
     res.json({
@@ -19,6 +21,6 @@ server.get('/', (req, res) => {
 });
 
 server.use('/api/auth', authRouter);
-server.use('/api/jokes', authenticate, jokesRouter);
+server.use('/api/jokes', authenticate(), jokesRouter);
 
 module.exports = server;

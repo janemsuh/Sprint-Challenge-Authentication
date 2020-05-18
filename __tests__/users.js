@@ -16,15 +16,14 @@ describe('users integration tests', () => {
 		const data = { username: 'anonymous', password: 'whatistime' };
 		const res = await supertest(server).post('/api/auth/register').send(data);
 		expect(res.statusCode).toBe(201);
-		// expect(res.type).toBe('application/json');
 		expect(res.body.username).toBe(data.username);
     });
 
-    // it('POST /api/auth/login', async () => {
-	// 	const data = { username: 'sbrown', password: 'iheartlinus' };
-	// 	const res = await supertest(server).post('/api/auth/login').send(data);
-	// 	// expect(res.statusCode).toBe(200);
-	// 	expect(res.type).toBe('application/json');
-	// 	// expect(res.validPassword).toBe(true);
-    // });
+    it('POST /api/auth/login', async () => {
+		const data = { username: 'cbrown', password: 'snoopyismybff' };
+		const res = await supertest(server).post('/api/auth/login').send(data);
+		expect(res.statusCode).toBe(200);
+		expect(res.type).toBe('application/json');
+		// expect(res.validPassword).toBe(true);
+    });
 });

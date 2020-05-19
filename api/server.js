@@ -14,13 +14,14 @@ server.use(cors());
 server.use(express.json());
 server.use(cookieParser());
 
-server.get('/', (req, res) => {
-    res.json({
-        message: 'The Sprint Challenge Authentication API is up'
-    })
-});
-
 server.use('/api/auth', authRouter);
 server.use('/api/jokes', authenticate(), jokesRouter);
+
+server.use((err, req, res, next) => {
+	console.log(err);
+	res.status(500).json({
+		message: 'Something went wrong'
+	});
+});
 
 module.exports = server;
